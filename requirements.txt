@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+langchain
+supabase
+logfire
+pytest
+pytest-cov
+httpx
