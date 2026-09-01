@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from app.ai.prompts.weather_forecast_prompt import WEATHER_FORECAST_PROMPT
 from app.config.settings import get_settings
 from app.models.weather_statistics import WeatherStatistics
+from app.utils.unit_conversion import ms_to_kmh
 
 
 class NarrativeOutput(BaseModel):
@@ -30,7 +31,11 @@ def _format_precipitation(value: float | None) -> str:
     return f"{value:.1f} mm" if value is not None else "not available"
 
 
-def generate_narrative(statistics: WeatherStatistics, llm: ChatOpenAI | None = None) -> str:
+def _format_wind_speed(value_ms: float | None) -> str:
+    return f"{ms_to_kmh(value_ms):.0f} km/h" if value_ms is not None else "not available"
+
+
+def generate_narrative(statistics: WeatherStatistics, condition: str, llm: ChatOpenAI | None = None) -> str:
     llm = llm or _get_chat_model()
     chain = WEATHER_FORECAST_PROMPT | llm.with_structured_output(NarrativeOutput)
 
@@ -45,6 +50,8 @@ def generate_narrative(statistics: WeatherStatistics, llm: ChatOpenAI | None = N
             "precipitation_chance": _format_percentage(statistics.precipitation_chance_pct),
             "precipitation_avg": _format_precipitation(statistics.precipitation_avg_mm),
             "humidity_avg": _format_percentage(statistics.humidity_avg_pct),
+            "wind_speed": _format_wind_speed(statistics.wind_speed_avg_ms),
+            "condition": condition,
         }
     )
     return result.narrative

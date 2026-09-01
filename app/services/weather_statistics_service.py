@@ -16,6 +16,7 @@ def _summarize_day(year: int, readings: list[WeatherReading]) -> DailyWeatherSum
     temperatures = [r.temperature_c for r in readings if r.temperature_c is not None]
     precipitations = [r.precipitation_mm for r in readings if r.precipitation_mm is not None]
     humidities = [r.humidity_pct for r in readings if r.humidity_pct is not None]
+    wind_speeds = [r.wind_speed_ms for r in readings if r.wind_speed_ms is not None]
 
     return DailyWeatherSummary(
         year=year,
@@ -24,6 +25,7 @@ def _summarize_day(year: int, readings: list[WeatherReading]) -> DailyWeatherSum
         temperature_min_c=min(temperatures) if temperatures else None,
         precipitation_total_mm=sum(precipitations) if precipitations else None,
         humidity_avg_pct=_mean(humidities),
+        wind_speed_avg_ms=_mean(wind_speeds),
     )
 
 
@@ -62,4 +64,5 @@ def compute_statistics(
         precipitation_chance_pct=precipitation_chance_pct,
         precipitation_avg_mm=_mean(precipitation_totals),
         humidity_avg_pct=_mean([s.humidity_avg_pct for s in summaries if s.humidity_avg_pct is not None]),
+        wind_speed_avg_ms=_mean([s.wind_speed_avg_ms for s in summaries if s.wind_speed_avg_ms is not None]),
     )

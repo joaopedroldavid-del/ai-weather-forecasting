@@ -9,3 +9,4 @@ class DailyWeatherSummary:
     temperature_min_c: float | None
     precipitation_total_mm: float | None
     humidity_avg_pct: float | None
+    wind_speed_avg_ms: float | None

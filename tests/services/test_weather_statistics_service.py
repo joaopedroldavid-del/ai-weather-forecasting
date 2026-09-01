@@ -13,8 +13,8 @@ def _reading(year, hour, **overrides):
 
 def test_summarize_day_averages_and_ignores_none_values():
     readings = [
-        _reading(2020, 0, temperature_c=20.0, precipitation_mm=0.0, humidity_pct=70.0),
-        _reading(2020, 12, temperature_c=30.0, precipitation_mm=None, humidity_pct=80.0),
+        _reading(2020, 0, temperature_c=20.0, precipitation_mm=0.0, humidity_pct=70.0, wind_speed_ms=4.0),
+        _reading(2020, 12, temperature_c=30.0, precipitation_mm=None, humidity_pct=80.0, wind_speed_ms=6.0),
     ]
 
     summary = _summarize_day(2020, readings)
@@ -25,10 +25,13 @@ def test_summarize_day_averages_and_ignores_none_values():
     assert summary.temperature_min_c == 20.0
     assert summary.precipitation_total_mm == 0.0
     assert summary.humidity_avg_pct == 75.0
+    assert summary.wind_speed_avg_ms == 5.0
 
 
 def test_summarize_day_returns_none_when_all_values_missing():
-    readings = [_reading(2020, 0, temperature_c=None, precipitation_mm=None, humidity_pct=None)]
+    readings = [
+        _reading(2020, 0, temperature_c=None, precipitation_mm=None, humidity_pct=None, wind_speed_ms=None)
+    ]
 
     summary = _summarize_day(2020, readings)
 
@@ -37,14 +40,15 @@ def test_summarize_day_returns_none_when_all_values_missing():
     assert summary.temperature_min_c is None
     assert summary.precipitation_total_mm is None
     assert summary.humidity_avg_pct is None
+    assert summary.wind_speed_avg_ms is None
 
 
 def test_compute_statistics_aggregates_across_years():
     repository = _FakeRepository(
         readings=[
-            _reading(2020, 0, temperature_c=20.0, precipitation_mm=0.0, humidity_pct=70.0),
-            _reading(2021, 0, temperature_c=24.0, precipitation_mm=5.0, humidity_pct=80.0),
-            _reading(2022, 0, temperature_c=22.0, precipitation_mm=0.0, humidity_pct=75.0),
+            _reading(2020, 0, temperature_c=20.0, precipitation_mm=0.0, humidity_pct=70.0, wind_speed_ms=3.0),
+            _reading(2021, 0, temperature_c=24.0, precipitation_mm=5.0, humidity_pct=80.0, wind_speed_ms=5.0),
+            _reading(2022, 0, temperature_c=22.0, precipitation_mm=0.0, humidity_pct=75.0, wind_speed_ms=4.0),
         ]
     )
 
@@ -56,6 +60,7 @@ def test_compute_statistics_aggregates_across_years():
     assert stats.precipitation_avg_mm == pytest.approx(5.0 / 3)
     # 1 of 3 years had measurable rain
     assert stats.precipitation_chance_pct == pytest.approx(100 / 3)
+    assert stats.wind_speed_avg_ms == pytest.approx(4.0)
 
 
 def test_compute_statistics_raises_when_no_historical_data():
