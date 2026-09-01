@@ -52,6 +52,17 @@ def test_create_forecast_returns_expected_shape(monkeypatch):
     }
 
 
+def test_create_forecast_echoes_resolved_city_name_not_raw_input(monkeypatch):
+    monkeypatch.setattr(
+        forecast_service, "generate_forecast", lambda city, target_date: _forecast_dto(city="São Paulo")
+    )
+
+    response = client.post("/forecast", json={"location": "sao paulo", "date": "09-02-2026"})
+
+    assert response.status_code == 200
+    assert response.json()["location"] == "São Paulo"
+
+
 def test_create_forecast_returns_400_for_invalid_date_format():
     response = client.post("/forecast", json={"location": "São Paulo", "date": "2026-09-02"})
 

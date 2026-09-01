@@ -1,5 +1,5 @@
 import logging
-from datetime import date, datetime, timezone
+from datetime import datetime, timezone
 
 from supabase import Client
 
@@ -87,19 +87,6 @@ def _row_to_domain(row: dict) -> WeatherReading:
 class WeatherReadingRepository:
     def __init__(self, client: Client | None = None):
         self._client = client or get_supabase_client()
-
-    def find_by_city(self, city: str, start_date: date, end_date: date) -> list[WeatherReading]:
-        response = (
-            self._client.table(TABLE_NAME)
-            .select("*")
-            .eq(COL_CIDADE, city)
-            .gte(COL_DATA, start_date.strftime("%Y/%m/%d"))
-            .lte(COL_DATA, end_date.strftime("%Y/%m/%d"))
-            .order(COL_DATA)
-            .order(COL_HORA_UTC)
-            .execute()
-        )
-        return [_row_to_domain(row) for row in response.data]
 
     def find_by_city_and_day_of_month(self, city: str, month: int, day: int) -> list[WeatherReading]:
         """All historical readings for a given calendar day (e.g. every

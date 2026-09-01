@@ -35,7 +35,7 @@ def create_forecast(request: ForecastRequestDTO) -> ForecastResponseDTO:
         raise HTTPException(status_code=500, detail="Internal server error")
 
     return ForecastResponseDTO(
-        location=request.location,
+        location=forecast.city,
         date=request.date,
         forecast=ForecastConditionsDTO(
             temperature_max=forecast.temperature_max_avg_c,
