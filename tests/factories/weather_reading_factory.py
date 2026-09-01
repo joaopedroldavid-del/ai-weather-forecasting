@@ -1,3 +1,6 @@
+from datetime import datetime, timezone
+
+from app.models.weather_reading import WeatherReading
 from app.repositories.weather_reading_repository import (
     COL_CIDADE,
     COL_DATA,
@@ -49,3 +52,31 @@ DEFAULT_RAW_ROW = {
 
 def build_raw_row(**overrides: str) -> dict:
     return {**DEFAULT_RAW_ROW, **overrides}
+
+
+DEFAULT_WEATHER_READING_KWARGS = dict(
+    uf="SP",
+    city="São Paulo",
+    observed_at=datetime(2020, 1, 1, 12, tzinfo=timezone.utc),
+    precipitation_mm=0.0,
+    pressure_mb=922.3,
+    pressure_max_mb=922.3,
+    pressure_min_mb=921.2,
+    radiation_kj_m2=None,
+    temperature_c=23.3,
+    dew_point_c=18.1,
+    temperature_max_c=24.1,
+    temperature_min_c=23.2,
+    dew_point_max_c=18.3,
+    dew_point_min_c=17.0,
+    humidity_max_pct=73.0,
+    humidity_min_pct=65.0,
+    humidity_pct=73.0,
+    wind_direction_deg=71.0,
+    wind_gust_ms=4.3,
+    wind_speed_ms=1.8,
+)
+
+
+def build_weather_reading(**overrides) -> WeatherReading:
+    return WeatherReading(**{**DEFAULT_WEATHER_READING_KWARGS, **overrides})
