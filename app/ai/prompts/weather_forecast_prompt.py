@@ -21,7 +21,7 @@ HUMAN_PROMPT = (
     "Average daily high: {temperature_max_avg}\n"
     "Average daily low: {temperature_min_avg}\n"
     "Chance of precipitation: {precipitation_chance}\n"
-    "Average precipitation on rainy years: {precipitation_avg}\n"
+    "Average precipitation across all analyzed years (including dry ones): {precipitation_avg}\n"
     "Average relative humidity: {humidity_avg}\n"
     "Average wind speed: {wind_speed}\n"
     "Overall condition: {condition}\n\n"
