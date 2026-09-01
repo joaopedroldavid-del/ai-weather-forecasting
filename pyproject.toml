@@ -1,3 +1,20 @@
+[project]
+name = "ai-weather-forecasting"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic",
+    "pydantic-settings",
+    "langchain",
+    "langchain-openai",
+    "supabase",
+    "pytest",
+    "pytest-cov",
+    "httpx",
+]
+
 [tool.pytest.ini_options]
 addopts = "--cov=app --cov-report=term-missing --cov-fail-under=80"
 testpaths = ["tests"]
