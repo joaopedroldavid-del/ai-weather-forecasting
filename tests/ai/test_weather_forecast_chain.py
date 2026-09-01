@@ -37,6 +37,7 @@ def test_generate_narrative_returns_llm_output():
         month=7,
         day=15,
         years_analyzed=4,
+        years=[2020, 2021, 2022, 2023],
         temperature_avg_c=22.0,
         temperature_max_avg_c=27.0,
         temperature_min_avg_c=17.0,

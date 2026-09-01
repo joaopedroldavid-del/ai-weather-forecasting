@@ -44,6 +44,7 @@ def create_forecast(request: ForecastRequestDTO) -> ForecastResponseDTO:
             wind_speed=forecast.wind_speed_kmh,
             forecast=forecast.condition,
             precipitation=forecast.precipitation_avg_mm,
+            years=forecast.years,
         ),
         narrative=forecast.narrative,
     )

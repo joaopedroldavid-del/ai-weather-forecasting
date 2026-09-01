@@ -8,6 +8,7 @@ class ForecastConditionsDTO(BaseModel):
     wind_speed: float | None
     forecast: str
     precipitation: float | None
+    years: list[int]
 
 
 class ForecastResponseDTO(BaseModel):

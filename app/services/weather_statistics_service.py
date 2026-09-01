@@ -45,6 +45,7 @@ def compute_statistics(
         readings_by_year[reading.observed_at.year].append(reading)
 
     summaries = [_summarize_day(year, year_readings) for year, year_readings in readings_by_year.items()]
+    years = sorted(readings_by_year.keys())
 
     precipitation_totals = [s.precipitation_total_mm for s in summaries if s.precipitation_total_mm is not None]
     precipitation_chance_pct = (
@@ -58,6 +59,7 @@ def compute_statistics(
         month=month,
         day=day,
         years_analyzed=len(summaries),
+        years=years,
         temperature_avg_c=_mean([s.temperature_avg_c for s in summaries if s.temperature_avg_c is not None]),
         temperature_max_avg_c=_mean([s.temperature_max_c for s in summaries if s.temperature_max_c is not None]),
         temperature_min_avg_c=_mean([s.temperature_min_c for s in summaries if s.temperature_min_c is not None]),

@@ -14,6 +14,7 @@ def _stats(**overrides):
         month=7,
         day=15,
         years_analyzed=4,
+        years=[2020, 2021, 2022, 2023],
         temperature_avg_c=22.0,
         temperature_max_avg_c=27.0,
         temperature_min_avg_c=17.0,
@@ -42,6 +43,7 @@ def test_generate_forecast_assembles_dto_from_stats_and_narrative(monkeypatch):
     assert result.city == "São Paulo"
     assert result.target_date == date(2026, 7, 15)
     assert result.years_analyzed == 4
+    assert result.years == [2020, 2021, 2022, 2023]
     assert result.confidence == "medium"
     assert result.temperature_avg_c == 22.0
     assert result.wind_speed_kmh == pytest.approx(18.0)

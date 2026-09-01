@@ -15,6 +15,7 @@ def _forecast_dto(**overrides):
         city="São Paulo",
         target_date=date(2026, 9, 2),
         years_analyzed=4,
+        years=[2020, 2021, 2022, 2023],
         confidence="medium",
         temperature_avg_c=22.0,
         temperature_max_avg_c=27.0,
@@ -45,6 +46,7 @@ def test_create_forecast_returns_expected_shape(monkeypatch):
             "wind_speed": 18.0,
             "forecast": "cloudy",
             "precipitation": 3.5,
+            "years": [2020, 2021, 2022, 2023],
         },
         "narrative": "Expect mild, mostly dry weather.",
     }

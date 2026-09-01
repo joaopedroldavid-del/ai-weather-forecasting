@@ -56,6 +56,7 @@ def test_compute_statistics_aggregates_across_years():
 
     assert stats.city == "São Paulo"
     assert stats.years_analyzed == 3
+    assert stats.years == [2020, 2021, 2022]
     assert stats.temperature_avg_c == pytest.approx(22.0)
     assert stats.precipitation_avg_mm == pytest.approx(5.0 / 3)
     # 1 of 3 years had measurable rain

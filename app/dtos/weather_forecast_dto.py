@@ -7,6 +7,7 @@ class WeatherForecastDTO(BaseModel):
     city: str
     target_date: date
     years_analyzed: int
+    years: list[int]
     confidence: str
     temperature_avg_c: float | None
     temperature_max_avg_c: float | None

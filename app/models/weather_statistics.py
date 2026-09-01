@@ -7,6 +7,7 @@ class WeatherStatistics:
     month: int
     day: int
     years_analyzed: int
+    years: list[int]
     temperature_avg_c: float | None
     temperature_max_avg_c: float | None
     temperature_min_avg_c: float | None

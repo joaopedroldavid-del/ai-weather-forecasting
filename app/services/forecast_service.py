@@ -75,6 +75,7 @@ def generate_forecast(
         city=stats.city,
         target_date=target_date,
         years_analyzed=stats.years_analyzed,
+        years=stats.years,
         confidence=_confidence_level(stats.years_analyzed),
         temperature_avg_c=stats.temperature_avg_c,
         temperature_max_avg_c=stats.temperature_max_avg_c,
