@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     logfire_token: str = ""
 
     openai_api_key: str = ""
+    forecast_model_name: str = "gpt-4o-mini"
 
 
 @lru_cache
