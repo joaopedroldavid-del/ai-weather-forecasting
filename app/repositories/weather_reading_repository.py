@@ -101,6 +101,21 @@ class WeatherReadingRepository:
         )
         return [_row_to_domain(row) for row in response.data]
 
+    def find_by_city_and_day_of_month(self, city: str, month: int, day: int) -> list[WeatherReading]:
+        """All historical readings for a given calendar day (e.g. every
+        July 15th on record), across every year available."""
+        pattern = f"%/{month:02d}/{day:02d}"
+        response = (
+            self._client.table(TABLE_NAME)
+            .select("*")
+            .eq(COL_CIDADE, city)
+            .like(COL_DATA, pattern)
+            .order(COL_DATA)
+            .order(COL_HORA_UTC)
+            .execute()
+        )
+        return [_row_to_domain(row) for row in response.data]
+
     def list_cities(self) -> list[str]:
         response = self._client.table(TABLE_NAME).select(COL_CIDADE).execute()
         cities = {row[COL_CIDADE] for row in response.data if row.get(COL_CIDADE)}
