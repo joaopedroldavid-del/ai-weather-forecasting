@@ -12,8 +12,6 @@ class Settings(BaseSettings):
     supabase_url: str = ""
     supabase_service_role_key: str = ""
 
-    logfire_token: str = ""
-
     openai_api_key: str = ""
     forecast_model_name: str = "gpt-4o-mini"
 
