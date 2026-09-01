@@ -145,7 +145,6 @@ cp .env.example .env   # then fill in the values below
 
 | Variable | Required | Description |
 |---|---|---|
-| `ENVIRONMENT` | no (default `development`) | Deployment environment label |
 | `SUPABASE_URL` | yes | Your Supabase project URL (bare, no `/rest/v1` suffix) |
 | `SUPABASE_SERVICE_ROLE_KEY` | yes | Supabase **service role** key — this is a trusted backend, so it bypasses RLS |
 | `OPENAI_API_KEY` | yes | OpenAI API key used for the forecast narrative |
@@ -186,8 +185,8 @@ existing entrypoint already matches what Vercel looks for.
 2. Set the required environment variables under the project's **Settings →
    Environment Variables** (same names as `.env.example`):
    `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `OPENAI_API_KEY`, and
-   optionally `FORECAST_MODEL_NAME` / `ENVIRONMENT`. These are read from the
-   real process environment in production — no `.env` file is deployed.
+   optionally `FORECAST_MODEL_NAME`. These are read from the real process
+   environment in production — no `.env` file is deployed.
 3. Push/deploy. `vercel.json` sets a 30s `maxDuration` on the function
    (covers a Supabase query + an OpenAI call) and excludes `tests/**` from
    the deployed bundle. `.python-version` pins the runtime to `3.12`,

@@ -7,7 +7,6 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     app_name: str = "AI Weather Forecasting API"
-    environment: str = "development"
 
     supabase_url: str = ""
     supabase_service_role_key: str = ""
