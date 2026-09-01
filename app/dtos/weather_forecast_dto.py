@@ -14,4 +14,6 @@ class WeatherForecastDTO(BaseModel):
     precipitation_chance_pct: float | None
     precipitation_avg_mm: float | None
     humidity_avg_pct: float | None
+    wind_speed_kmh: float | None
+    condition: str
     narrative: str

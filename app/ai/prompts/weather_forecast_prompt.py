@@ -22,7 +22,9 @@ HUMAN_PROMPT = (
     "Average daily low: {temperature_min_avg}\n"
     "Chance of precipitation: {precipitation_chance}\n"
     "Average precipitation on rainy years: {precipitation_avg}\n"
-    "Average relative humidity: {humidity_avg}\n\n"
+    "Average relative humidity: {humidity_avg}\n"
+    "Average wind speed: {wind_speed}\n"
+    "Overall condition: {condition}\n\n"
     "Write a short (2-4 sentence) forecast narrative for this date based only "
     "on the statistics above."
 )

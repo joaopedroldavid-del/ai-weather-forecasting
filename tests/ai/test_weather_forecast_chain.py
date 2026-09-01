@@ -3,6 +3,7 @@ from app.ai.weather_forecast_chain import (
     _format_percentage,
     _format_precipitation,
     _format_temperature,
+    _format_wind_speed,
     generate_narrative,
 )
 from app.models.weather_statistics import WeatherStatistics
@@ -24,6 +25,11 @@ def test_format_precipitation_handles_value_and_none():
     assert _format_precipitation(None) == "not available"
 
 
+def test_format_wind_speed_converts_ms_to_kmh_and_handles_none():
+    assert _format_wind_speed(5.0) == "18 km/h"
+    assert _format_wind_speed(None) == "not available"
+
+
 def test_generate_narrative_returns_llm_output():
     fake_llm = FakeChatModel(structured_output=NarrativeOutput(narrative="Mocked narrative."))
     stats = WeatherStatistics(
@@ -37,9 +43,10 @@ def test_generate_narrative_returns_llm_output():
         precipitation_chance_pct=25.0,
         precipitation_avg_mm=3.5,
         humidity_avg_pct=70.0,
+        wind_speed_avg_ms=5.0,
     )
 
-    result = generate_narrative(stats, llm=fake_llm)
+    result = generate_narrative(stats, "cloudy", llm=fake_llm)
 
     assert result == "Mocked narrative."
     assert fake_llm.captured_schema is NarrativeOutput
