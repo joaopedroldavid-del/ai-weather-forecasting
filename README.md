@@ -174,6 +174,31 @@ Minimum coverage is 80% (enforced via `pytest-cov`, configured in
 and the chat model are faked in `tests/mocks/`, with fixtures built via
 `tests/factories/`.
 
+## Deployment (Vercel)
+
+This project deploys to Vercel with zero-config Python/FastAPI support —
+Vercel auto-detects the `app` instance at `app/main.py` and runs the whole
+API as a single Vercel Function. No code changes were needed for this; the
+existing entrypoint already matches what Vercel looks for.
+
+1. Connect the repository to a Vercel project (dashboard Git integration,
+   or `vercel link` with the CLI).
+2. Set the required environment variables under the project's **Settings →
+   Environment Variables** (same names as `.env.example`):
+   `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `OPENAI_API_KEY`, and
+   optionally `FORECAST_MODEL_NAME` / `ENVIRONMENT`. These are read from the
+   real process environment in production — no `.env` file is deployed.
+3. Push/deploy. `vercel.json` sets a 30s `maxDuration` on the function
+   (covers a Supabase query + an OpenAI call) and excludes `tests/**` from
+   the deployed bundle. `.python-version` pins the runtime to `3.12`,
+   matching local development.
+4. To test locally against the exact runtime Vercel uses, install the
+   [Vercel CLI](https://vercel.com/docs/cli) and run `vercel dev` instead of
+   `uvicorn`.
+
+> Adjust `maxDuration` in `vercel.json` if your Vercel plan caps function
+> duration lower than 30s.
+
 ## Data model
 
 `bdmep_forecast` mirrors INMET's raw CSV export column-for-column
