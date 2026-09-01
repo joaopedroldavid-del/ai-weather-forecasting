@@ -24,6 +24,10 @@ class FakeQueryBuilder:
         self.calls.append(("lte", args))
         return self
 
+    def like(self, *args):
+        self.calls.append(("like", args))
+        return self
+
     def order(self, *args):
         self.calls.append(("order", args))
         return self

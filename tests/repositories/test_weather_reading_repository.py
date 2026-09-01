@@ -35,6 +35,19 @@ def test_find_by_city_builds_expected_query_and_maps_rows(monkeypatch):
     assert results[0].observed_at == datetime(2020, 1, 1, 0, tzinfo=timezone.utc)
 
 
+def test_find_by_city_and_day_of_month_builds_like_pattern_query(monkeypatch):
+    monkeypatch.setattr(repo_module, "_parse_float", lambda raw: None)
+    raw_row = build_raw_row()
+    fake_client = FakeSupabaseClient(data=[raw_row])
+    repository = WeatherReadingRepository(client=fake_client)
+
+    results = repository.find_by_city_and_day_of_month("São Paulo", 7, 15)
+
+    assert ("eq", (COL_CIDADE, "São Paulo")) in fake_client.last_query_builder.calls
+    assert ("like", ("Data", "%/07/15")) in fake_client.last_query_builder.calls
+    assert len(results) == 1
+
+
 def test_list_cities_returns_sorted_unique_cities():
     fake_client = FakeSupabaseClient(
         data=[
